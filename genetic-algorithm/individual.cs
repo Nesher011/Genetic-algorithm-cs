@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace genetic_algorithm
 {
-    public class Individual
+    internal class Individual
     {
         public Individual(int numOfGenes)
         {
@@ -17,5 +17,19 @@ namespace genetic_algorithm
         public List<bool> genesList { get; set; }
 
         public int numberOfGenes { get; set; }
+
+        public List<float> waterLevelList()
+        {
+            List<bool> pump1=new List<bool>();
+            //pump1.InsertRange(2, genesList);//***TO DO***
+            Console.WriteLine(pump1);
+            return null;
+        }
+        public double FitnessFunction()
+        {
+            //Console.WriteLine(numberOfGenes);
+            return numberOfGenes;
+        }
     }
+
 }

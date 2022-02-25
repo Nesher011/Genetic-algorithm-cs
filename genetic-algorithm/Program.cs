@@ -1,7 +1,6 @@
 ﻿using genetic_algorithm;
 
 Random random = new Random();
-List<Individual> population = new List<Individual>();
 Generation generation=new Generation();
 float[] demand = { 60, 50, 40, 30, 40, 50, 60, 100, 120, 150, 160, 160, 160, 130, 130, 150, 150, 150, 140, 130, 120, 100, 80, 70 };
 int[] pumpVolume = { 0, 10, 30, 40, 50, 60, 80, 90, 100, 110, 130, 140, 150, 160, 180, 190 };
@@ -20,11 +19,9 @@ for (int i = 0; i < generation.numberOfIndividuals; i++)
     {
         individual.genesList.Add(random.NextDouble() >= 0.5);
     }
-    population.Add(individual);
+    generation.population.Add(individual);
 }
 
-
-
-Console.WriteLine(population[0].waterLevelList());
+Console.WriteLine(generation.population[0].createWaterLevelList(waterPumpStation));
 
 

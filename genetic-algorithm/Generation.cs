@@ -9,5 +9,11 @@ namespace genetic_algorithm
     internal class Generation
     {
         public int numberOfIndividuals { get; set; }
+        public List<Individual> population { get; set; }
+
+        public Generation()
+        {
+            population=new List<Individual>();
+        }
     }
 }

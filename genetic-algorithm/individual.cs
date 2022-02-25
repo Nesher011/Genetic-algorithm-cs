@@ -10,6 +10,10 @@ namespace genetic_algorithm
     {
         public Individual(int numOfGenes)
         {
+            pump1 = new List<bool>();
+            pump2 = new List<bool>();
+            pump3 = new List<bool>();
+            pump4 = new List<bool>();
             genesList = new List<bool>();
             numberOfGenes = numOfGenes;
             waterLevelList = new List<double>();
@@ -29,21 +33,28 @@ namespace genetic_algorithm
 
         public double actualWaterLevel { get; set; }
 
-        public List<double> createWaterLevelList(Water_Pump_Station waterPumpStation)
+        public List<bool> pump1 { get; set; }
+        public List<bool> pump2 { get; set; }
+        public List<bool> pump3 { get; set; }
+        public List<bool> pump4 { get; set; }
+
+        public void createPumpLists()
         {
-            List<bool> pump1 = new List<bool>();
-            List<bool> pump2 = new List<bool>();
-            List<bool> pump3 = new List<bool>();
-            List<bool> pump4 = new List<bool>();
-            int variationOfPumpsUsed;
-            double lostWater = 0;
-            for(int i = 0; i < numberOfGenes / numberOfPumps; i++)
+            for (int i = 0; i < numberOfGenes / numberOfPumps; i++)
             {
                 pump1.Add(genesList[i]);
-                pump2.Add(genesList[i + numberOfGenes/numberOfPumps]);
-                pump3.Add(genesList[i + numberOfGenes*2/numberOfPumps]);
-                pump4.Add(genesList[i + numberOfGenes*2/numberOfPumps]);
+                pump2.Add(genesList[i + numberOfGenes / numberOfPumps]);
+                pump3.Add(genesList[i + numberOfGenes * 2 / numberOfPumps]);
+                pump4.Add(genesList[i + numberOfGenes * 2 / numberOfPumps]);
             }
+        }
+
+        public List<double> createWaterLevelList(Water_Pump_Station waterPumpStation)
+        {
+
+            int variationOfPumpsUsed;
+            double lostWater = 0;
+
             for (int i = 0; i < pump1.Count(); i++)
             {
                 

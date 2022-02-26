@@ -119,9 +119,6 @@ namespace genetic_algorithm
             //Console.WriteLine(numberOfGenes);
             return numberOfGenes;
         }
-        public bool czyKochaPiwo()
-        {
-            return random.NextDouble() > 0.5;
-        }
+
     }
 }

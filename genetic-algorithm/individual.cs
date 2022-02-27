@@ -17,14 +17,14 @@ namespace genetic_algorithm
             numberOfGenes = numOfGenes;
             genesList = generateGenes();
             createPumpLists();
-            waterLevelList = new List<double>();
+            waterLevelList = new List<decimal>();
             actualWaterLevel = waterPumpStation.initialWaterLevel;
             lostWater = 0;
             costOfSolution = 0;
         }
-        public double initialWaterLevel { get; set; }
+        public decimal initialWaterLevel { get; set; }
 
-        public List<double> waterLevelList { get; }
+        public List<decimal> waterLevelList { get; }
 
         public List<bool> genesList { get; set; }
 
@@ -32,12 +32,12 @@ namespace genetic_algorithm
 
         public int numberOfPumps { get; set; }
 
-        public double actualWaterLevel { get; set; }
+        public decimal actualWaterLevel { get; set; }
 
         public bool[,] pumpSchedule { get; set; }
 
-        public double lostWater { get; set; }
-        public double costOfSolution { get; set; }
+        public decimal lostWater { get; set; }
+        public decimal costOfSolution { get; set; }
 
         private Random random { get; set; }
 
@@ -63,7 +63,7 @@ namespace genetic_algorithm
             }
         }
 
-        public List<double> createWaterLevelList(Water_Pump_Station waterPumpStation)
+        public List<decimal> createWaterLevelList(Water_Pump_Station waterPumpStation)
         {
             int variationOfPumpsUsed=0;
             lostWater = 0;
@@ -73,7 +73,7 @@ namespace genetic_algorithm
                 {
                     variationOfPumpsUsed += pumpSchedule[i,j] == true ? Convert.ToInt32(Math.Pow(2, i)) : 0;
                 }
-                double actualPumpVolume = waterPumpStation.waterPumpVolume[variationOfPumpsUsed];
+                decimal actualPumpVolume = waterPumpStation.waterPumpVolume[variationOfPumpsUsed];
                 Console.WriteLine(variationOfPumpsUsed);
                 actualWaterLevel = actualWaterLevel + actualPumpVolume - waterPumpStation.waterDemand[i];
                 waterLevelList.Add(actualWaterLevel);
@@ -96,10 +96,10 @@ namespace genetic_algorithm
             return waterLevelList;
         }
 
-        public double CalculateCost(Water_Pump_Station waterPumpStation)
+        public decimal CalculateCost(Water_Pump_Station waterPumpStation)
         {
-            List<double> pumpElectricityList = new List<double>();
-            double totalCost = 0;
+            List<decimal> pumpElectricityList = new List<decimal>();
+            decimal totalCost = 0;
             Console.WriteLine(pumpSchedule.GetLength(0));
             for (int j = 0; j < pumpSchedule.GetLength(1); j++)
             {

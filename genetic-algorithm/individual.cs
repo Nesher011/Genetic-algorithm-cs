@@ -21,6 +21,7 @@ namespace genetic_algorithm
             actualWaterLevel = waterPumpStation.initialWaterLevel;
             lostWater = 0;
             costOfSolution = 0;
+            fitnessValue = FitnessFunction(waterPumpStation);
         }
         public decimal initialWaterLevel { get; set; }
 
@@ -40,6 +41,8 @@ namespace genetic_algorithm
         public decimal costOfSolution { get; set; }
 
         private Random random { get; set; }
+
+        public decimal fitnessValue { get; set; }
 
         public List<bool> generateGenes()
         {
@@ -100,7 +103,6 @@ namespace genetic_algorithm
         {
             List<decimal> pumpElectricityList = new List<decimal>();
             decimal totalCost = 0;
-            Console.WriteLine(pumpSchedule.GetLength(0));
             for (int j = 0; j < pumpSchedule.GetLength(1); j++)
             {
                 int variationOfPumpsUsed = 0;
@@ -114,10 +116,16 @@ namespace genetic_algorithm
             totalCost += lostWater * waterPumpStation.costOfLostWater;
             return totalCost;
         }
-        public double FitnessFunction()
+        public decimal FitnessFunction(Water_Pump_Station waterPumpStation)
         {
-            //Console.WriteLine(numberOfGenes);
-            return numberOfGenes;
+            costOfSolution = CalculateCost(waterPumpStation);
+            decimal minimalCubicMeters = 0;
+            for (int i = 0; i < waterPumpStation.waterDemand.Count(); i++)
+            {
+                minimalCubicMeters+=waterPumpStation.waterDemand[i];
+            }
+            decimal minimalCost = minimalCubicMeters * waterPumpStation.energyPriceNight;
+            return costOfSolution/minimalCost;
         }
 
     }

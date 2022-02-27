@@ -2,19 +2,14 @@
 
 Random random = new Random();
 Generation generation=new Generation();
+Water_Pump_Station waterPumpStation = new Water_Pump_Station();
 
 
-double rateOfMutation = 1 / 96;//***TO DO***
-double rateOfCrossover = 0.9;
 
-Water_Pump_Station waterPumpStation=new Water_Pump_Station();
 
-generation.numberOfIndividuals = 40;
-for (int i = 0; i < generation.numberOfIndividuals; i++)
-{    
-    Individual individual = new Individual(96);
-    generation.population.Add(individual);
+List<Individual> sortedPopulation = generation.population.OrderBy(x => x.fitnessValue).ToList();
+foreach (Individual individual in sortedPopulation)
+{
+    Console.WriteLine(individual.fitnessValue);
 }
-Console.WriteLine(generation.population[0].CalculateCost(waterPumpStation));
-
 

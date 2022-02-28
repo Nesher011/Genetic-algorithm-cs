@@ -24,26 +24,16 @@ namespace genetic_algorithm
             fitnessValue = FitnessFunction(waterPumpStation);
         }
         public decimal initialWaterLevel { get; set; }
-
         public List<decimal> waterLevelList { get; }
-
         public List<bool> genesList { get; set; }
-
         public int numberOfGenes { get; set; }
-
         public int numberOfPumps { get; set; }
-
         public decimal actualWaterLevel { get; set; }
-
         public bool[,] pumpSchedule { get; set; }
-
         public decimal lostWater { get; set; }
         public decimal costOfSolution { get; set; }
-
         private Random random { get; set; }
-
         public decimal fitnessValue { get; set; }
-
         public List<bool> generateGenes()
         {
             genesList = new List<bool>();
@@ -53,8 +43,6 @@ namespace genetic_algorithm
             }
             return genesList;
         }
-
-
         public void createPumpLists()
         {
             for (int i = 0; i < numberOfPumps; i++)
@@ -65,7 +53,6 @@ namespace genetic_algorithm
                 }
             }
         }
-
         public List<decimal> createWaterLevelList(Water_Pump_Station waterPumpStation)
         {
             int variationOfPumpsUsed=0;
@@ -91,14 +78,12 @@ namespace genetic_algorithm
                     actualWaterLevel = 0;
                 }
             }
-            Console.WriteLine(waterLevelList[0]);
             if (waterLevelList.Last() < initialWaterLevel)
             {
                 lostWater += initialWaterLevel - waterLevelList[-1];
             }
             return waterLevelList;
         }
-
         public decimal CalculateCost(Water_Pump_Station waterPumpStation)
         {
             List<decimal> pumpElectricityList = new List<decimal>();

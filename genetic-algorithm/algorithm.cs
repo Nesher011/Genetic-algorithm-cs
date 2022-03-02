@@ -20,7 +20,7 @@ namespace genetic_algorithm
         public Generation generation { get; set; }
         private Random random;
         private int tournamentSize { get; set; }
-        public Individual tournamentSelection(Generation generation, int tournamentSize)
+        public Individual TournamentSelection(Generation generation)
         {
             /* TO DO: create a better function to get 3 random individuals that cannot be the same*/
             Individual selectedIndividual = generation.population[random.Next(generation.population.Count())];
@@ -34,5 +34,29 @@ namespace genetic_algorithm
             }
             return selectedIndividual;
         }
+
+        public List<Individual> ListOfParents(Generation generation)
+        {
+            List<Individual> listOfParents = new List<Individual>();
+            for (int i = 0; i < generation.population.Count(); i++)
+            {
+                Individual selectedIndividual = TournamentSelection(generation);
+                listOfParents.Add(selectedIndividual);
+            }
+            return listOfParents;
+        }
+
+        public (Individual,Individual) Crossover(Individual parentOne, Individual parentTwo)
+        {
+            Individual childOne = parentOne;
+            Individual childTwo = parentTwo;
+            for(int i = 0; i < parentOne.pumpSchedule.GetLength(0);i++)
+            {
+
+                Console.WriteLine(i);
+            }
+            return (childOne,childTwo);
+        }
+
     }
 }

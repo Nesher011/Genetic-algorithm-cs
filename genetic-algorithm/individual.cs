@@ -13,9 +13,8 @@ namespace genetic_algorithm
             random = new Random();
             pumpSchedule = new bool[4,24];
             Water_Pump_Station waterPumpStation = new Water_Pump_Station();
-            numberOfPumps = 4;
             numberOfGenes = numOfGenes;
-            genesList = generateGenes();
+            genesList = generateGenes(numberOfGenes);
             createPumpLists();
             waterLevelList = new List<decimal>();
             actualWaterLevel = waterPumpStation.initialWaterLevel;
@@ -26,15 +25,14 @@ namespace genetic_algorithm
         public decimal initialWaterLevel { get; set; }
         public List<decimal> waterLevelList { get; }
         public List<bool> genesList { get; set; }
-        public int numberOfGenes { get; set; }
-        public int numberOfPumps { get; set; }
+        public int numberOfGenes { get; }
         public decimal actualWaterLevel { get; set; }
         public bool[,] pumpSchedule { get; set; }
         public decimal lostWater { get; set; }
         public decimal costOfSolution { get; set; }
         private Random random { get; set; }
         public decimal fitnessValue { get; set; }
-        public List<bool> generateGenes()
+        public List<bool> generateGenes(int numberOfGenes)
         {
             genesList = new List<bool>();
             for (int i = 0; i < numberOfGenes; i++)

@@ -34,7 +34,7 @@ namespace genetic_algorithm
         public decimal costOfSolution { get; set; }
         private Random random { get; set; }
         public decimal fitnessValue { get; set; }
-        public List<bool> generateGenes(int numberOfGenes)
+        private List<bool> generateGenes(int numberOfGenes)
         {
             genesList = new List<bool>();
             for (int i = 0; i < numberOfGenes; i++)
@@ -43,7 +43,7 @@ namespace genetic_algorithm
             }
             return genesList;
         }
-        public void createPumpLists()
+        private void createPumpLists()
         {
             for (int i = 0; i < numberOfPumps; i++)
             {

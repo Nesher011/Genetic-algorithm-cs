@@ -22,7 +22,7 @@ namespace genetic_algorithm
         public List<int> waterPumpVolume { get; }
         public List<int> waterPumpElectricity { get; }
 
-        internal decimal initialWaterLevel { get; }
+        public decimal initialWaterLevel { get; }
 
         public decimal energyPriceDay { get; set; }
         public decimal energyPriceNight { get; set; }

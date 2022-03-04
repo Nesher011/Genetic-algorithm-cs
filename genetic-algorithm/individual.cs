@@ -8,10 +8,43 @@ namespace genetic_algorithm
 {
     internal class Individual
     {
+        private Random random { get; set; }
+        public List<bool> genesList { get; set; }
+        private int numberOfGenes { get; set; }
+        private int numberOfPumps { get; }
+        private List<decimal> waterLevelList { get; }
+        public List<List<bool>> pumpSchedule { get; }
+        private decimal costOfSolution { get; set; }
+        public decimal fitnessValue { get; set; }
+
+        private List<bool> generateGenes(int numberOfGenes)
+        {
+            genesList = new List<bool>();
+            for (int i = 0; i < numberOfGenes; i++)
+            {
+                genesList.Add(random.NextDouble() >= 0.5);
+            }
+            return genesList;
+        }
+        private List<List<bool>> createPumpLists()
+        {
+            List<List<bool>> listOfPumps= new List<List<bool>>();
+            for (int i = 0; i < numberOfPumps; i++)
+            {
+                List<bool> pump = new List<bool>();
+                for (int j = 0; j < numberOfGenes / numberOfPumps; j++)
+                {
+                    pump.Add(genesList[j + i * 24]);
+                }
+                listOfPumps.Add(pump);
+            }
+            return listOfPumps;
+        }
+
         public Individual(int numOfGenes)
         {
             random = new Random();
-            pumpSchedule = new bool[4,24];
+            pumpSchedule = new List<List<bool>>();
             Water_Pump_Station waterPumpStation = new Water_Pump_Station();
             numberOfGenes = numOfGenes;
             numberOfPumps = 4;
@@ -23,45 +56,21 @@ namespace genetic_algorithm
             costOfSolution = 0;
             fitnessValue = FitnessFunction(waterPumpStation);
         }
+       //need to clean those
         public decimal initialWaterLevel { get; set; }
-        public List<decimal> waterLevelList { get; }
-        public List<bool> genesList { get; set; }
-        public int numberOfGenes { get; }
-        public int numberOfPumps { get; }
         public decimal actualWaterLevel { get; set; }
-        public bool[,] pumpSchedule { get; set; }
         public decimal lostWater { get; set; }
-        public decimal costOfSolution { get; set; }
-        private Random random { get; set; }
-        public decimal fitnessValue { get; set; }
-        private List<bool> generateGenes(int numberOfGenes)
-        {
-            genesList = new List<bool>();
-            for (int i = 0; i < numberOfGenes; i++)
-            {
-                genesList.Add(random.NextDouble() >= 0.5);
-            }
-            return genesList;
-        }
-        private void createPumpLists()
-        {
-            for (int i = 0; i < numberOfPumps; i++)
-            {
-                for(int j = 0; j < numberOfGenes / numberOfPumps; j++)
-                {
-                    pumpSchedule[i,j] = genesList[j+i*24];
-                }
-            }
-        }
+
+        
         public List<decimal> createWaterLevelList(Water_Pump_Station waterPumpStation)
         {
             int variationOfPumpsUsed=0;
             lostWater = 0;
-            for (int i = 0; i < pumpSchedule.GetLength(0); i++)
+            for (int i = 0; i < pumpSchedule.Count(); i++)
             {
-                for(int j=0;j < pumpSchedule.GetLength(1); j++)
+                for(int j=0;j < pumpSchedule[0].Count(); j++)
                 {
-                    variationOfPumpsUsed += pumpSchedule[i,j] == true ? Convert.ToInt32(Math.Pow(2, i)) : 0;
+                    variationOfPumpsUsed += pumpSchedule[i][j] == true ? Convert.ToInt32(Math.Pow(2, i)) : 0;
                 }
                 decimal actualPumpVolume = waterPumpStation.waterPumpVolume[variationOfPumpsUsed];
                 Console.WriteLine(variationOfPumpsUsed);
@@ -88,15 +97,15 @@ namespace genetic_algorithm
         {
             List<decimal> pumpElectricityList = new List<decimal>();
             decimal totalCost = 0;
-            for (int j = 0; j < pumpSchedule.GetLength(1); j++)
+            for (int i = 0; i < pumpSchedule.Count(); i++)
             {
                 int variationOfPumpsUsed = 0;
-                for (int i = 0; i < pumpSchedule.GetLength(0); i++)
+                for (int j = 0; j < pumpSchedule[i].Count(); j++)
                 {
-                    variationOfPumpsUsed += pumpSchedule[i,j] == true ? Convert.ToInt32(Math.Pow(2, i)) : 0;
+                    variationOfPumpsUsed += pumpSchedule[i][j] == true ? Convert.ToInt32(Math.Pow(2, i)) : 0;
                 }
                 pumpElectricityList.Add(waterPumpStation.waterPumpElectricity[variationOfPumpsUsed]);
-                totalCost += pumpElectricityList[j] * (j < 7 || j  >= 20 ? waterPumpStation.energyPriceNight : waterPumpStation.energyPriceDay);
+                totalCost += pumpElectricityList[i] * (i < 7 || i  >= 20 ? waterPumpStation.energyPriceNight : waterPumpStation.energyPriceDay);
             }
             totalCost += lostWater * waterPumpStation.costOfLostWater;
             return totalCost;

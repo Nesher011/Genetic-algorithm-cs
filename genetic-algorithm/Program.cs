@@ -28,12 +28,3 @@ Console.WriteLine(algorithm.TournamentSelection(generation).fitnessValue);
 Individual selected1 = algorithm.TournamentSelection(generation);
 Individual selected2 = algorithm.TournamentSelection(generation);
 var (papa, xaxa)= algorithm.Crossover(selected1, selected2);
-foreach(bool gene in papa.genesList){
-    Console.WriteLine(gene);
-}
-foreach (bool gene in selected1.genesList)
-{
-    Console.WriteLine(gene);
-}
-Console.WriteLine(papa);
-

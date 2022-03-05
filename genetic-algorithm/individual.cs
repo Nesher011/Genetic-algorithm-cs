@@ -51,7 +51,7 @@ namespace genetic_algorithm
             numberOfGenes = numOfGenes;
             numberOfPumps = 4;
             genesList = generateGenes(numberOfGenes);
-            createPumpLists();
+            pumpSchedule= createPumpLists();
             waterLevelList = new List<decimal>();
             actualWaterLevel = waterPumpStation.initialWaterLevel;
             lostWater = 0;
@@ -95,17 +95,17 @@ namespace genetic_algorithm
         {
             List<decimal> pumpElectricityList = new List<decimal>();
             decimal totalCost = 0;
-            for (int i = 0; i < pumpSchedule.Count(); i++)
+             for (int i = 0; i < pumpSchedule.Count(); i++)
             {
                 int variationOfPumpsUsed = 0;
                 for (int j = 0; j < pumpSchedule[i].Count(); j++)
                 {
-                    variationOfPumpsUsed += pumpSchedule[i][j] == true ? Convert.ToInt32(Math.Pow(2, i)) : 0;
+                    variationOfPumpsUsed += pumpSchedule[i][j] == true ? Convert.ToInt32(Math.Pow(2, i)) : 0;//TO DO 
                 }
                 pumpElectricityList.Add(waterPumpStation.waterPumpElectricity[variationOfPumpsUsed]);
                 totalCost += pumpElectricityList[i] * (i < 7 || i  >= 20 ? waterPumpStation.energyPriceNight : waterPumpStation.energyPriceDay);
             }
-            totalCost += lostWater * waterPumpStation.costOfLostWater;
+            totalCost += lostWater * waterPumpStation.costOfLostWater;            
             return totalCost;
         }
 

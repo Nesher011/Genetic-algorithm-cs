@@ -16,6 +16,8 @@ namespace genetic_algorithm
         public List<List<bool>> pumpSchedule { get; }
         private decimal costOfSolution { get; set; }
         public decimal fitnessValue { get; set; }
+        private decimal actualWaterLevel { get; set; }
+        private decimal lostWater { get; set; }
 
         private List<bool> generateGenes(int numberOfGenes)
         {
@@ -55,12 +57,7 @@ namespace genetic_algorithm
             lostWater = 0;
             costOfSolution = 0;
             fitnessValue = FitnessFunction(waterPumpStation);
-        }
-       //need to clean those
-        public decimal initialWaterLevel { get; set; }
-        public decimal actualWaterLevel { get; set; }
-        public decimal lostWater { get; set; }
-
+        }   
         
         public List<decimal> createWaterLevelList(Water_Pump_Station waterPumpStation)
         {
@@ -87,12 +84,13 @@ namespace genetic_algorithm
                     actualWaterLevel = 0;
                 }
             }
-            if (waterLevelList.Last() < initialWaterLevel)
+            if (waterLevelList.Last() < waterPumpStation.initialWaterLevel)
             {
-                lostWater += initialWaterLevel - waterLevelList[-1];
+                lostWater += waterPumpStation.initialWaterLevel - waterLevelList[-1];
             }
             return waterLevelList;
         }
+
         public decimal CalculateCost(Water_Pump_Station waterPumpStation)
         {
             List<decimal> pumpElectricityList = new List<decimal>();
@@ -110,6 +108,7 @@ namespace genetic_algorithm
             totalCost += lostWater * waterPumpStation.costOfLostWater;
             return totalCost;
         }
+
         public decimal FitnessFunction(Water_Pump_Station waterPumpStation)
         {
             costOfSolution = CalculateCost(waterPumpStation);
@@ -121,6 +120,5 @@ namespace genetic_algorithm
             decimal minimalCost = minimalCubicMeters * waterPumpStation.energyPriceNight;
             return costOfSolution/minimalCost;
         }
-
     }
 }

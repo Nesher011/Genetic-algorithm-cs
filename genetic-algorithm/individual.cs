@@ -58,6 +58,21 @@ namespace genetic_algorithm
             costOfSolution = 0;
             fitnessValue = FitnessFunction(waterPumpStation);
         }   
+        public Individual()
+        {
+            random = new Random();
+            pumpSchedule = new List<List<bool>>();
+            Water_Pump_Station waterPumpStation = new Water_Pump_Station();
+            numberOfGenes = 96;
+            numberOfPumps = 4;
+            genesList = generateGenes(numberOfGenes);
+            pumpSchedule = createPumpLists();
+            waterLevelList = new List<decimal>();
+            actualWaterLevel = waterPumpStation.initialWaterLevel;
+            lostWater = 0;
+            costOfSolution = 0;
+            fitnessValue = FitnessFunction(waterPumpStation);
+        }
         
         public List<decimal> createWaterLevelList(Water_Pump_Station waterPumpStation)
         {

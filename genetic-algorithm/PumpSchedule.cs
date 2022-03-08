@@ -8,5 +8,6 @@ namespace genetic_algorithm
 {
     internal class PumpSchedule
     {
+        private int numberOfPumps { get; set; }
     }
 }

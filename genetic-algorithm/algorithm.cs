@@ -18,7 +18,7 @@ namespace genetic_algorithm
         public double rateOfCrossover { get; set; }
         public double rateOfMutation { get; set; }
         public Generation generation { get; set; }
-        private Random random;
+        private Random random { get; set; }
         private int tournamentSize { get; set; }
         public Individual TournamentSelection(Generation generation)
         {

@@ -6,15 +6,15 @@
         private int NumberOfPumps { get; set; }
         private decimal CostOfSolution { get; set; }
         private List<decimal> WaterLevelList { get; set; }
-        public decimal fitnessValue { get; }
+        public decimal FitnessValue { get; }
         public Individual(int numberOfGenes)
         {
             NumberOfPumps = numberOfGenes / 24;//24 hours per day, so one gene for an hour
             GenesList = GenerateGenes(numberOfGenes);
-            WaterPumpStation waterPumpStation = new WaterPumpStation();
+            WaterPumpStation waterPumpStation = new();
             WaterLevelList = CreateWaterLevelList(waterPumpStation);
             CostOfSolution = CalculateCost(waterPumpStation);
-            fitnessValue = FitnessFunction(waterPumpStation);
+            FitnessValue = FitnessFunction(waterPumpStation);
 
         }
         public Individual()
@@ -22,14 +22,14 @@
             int numberOfGenes = 96;
             NumberOfPumps = numberOfGenes / 24;
             GenesList = GenerateGenes(numberOfGenes);
-            WaterPumpStation waterPumpStation = new WaterPumpStation();
+            WaterPumpStation waterPumpStation = new();
             WaterLevelList= CreateWaterLevelList(waterPumpStation);
             CostOfSolution = CalculateCost(waterPumpStation);
         }
 
         private List<bool> GenerateGenes(int numberOfGenes)
         {
-            Random random = new Random();
+            Random random = new();
             GenesList = new List<bool>();
             for (int i = 0; i < numberOfGenes; i++)
             {
@@ -44,7 +44,7 @@
             decimal actualWaterLevel = waterPumpStation.initialWaterLevel;
             int variationOfPumpsUsed;
             waterPumpStation.lostWater = 0;
-            for (int i = 0; i < GenesList.Count() / NumberOfPumps; i++)
+            for (int i = 0; i < GenesList.Count / NumberOfPumps; i++)
             {
                 variationOfPumpsUsed = 0;
                 for (int j = 0; j < NumberOfPumps; j++)
@@ -76,7 +76,7 @@
         {
             decimal totalCost = 0;
             //***TO DO*** create a function that takes care of the pump electricity/pump volume List creation
-            for (int i = 0; i < GenesList.Count() / NumberOfPumps; i++)
+            for (int i = 0; i < GenesList.Count / NumberOfPumps; i++)
             {
                 int variationOfPumpsUsed = 0;
                 for(int j = 0; j < NumberOfPumps; j++)
@@ -92,7 +92,7 @@
         public decimal FitnessFunction(WaterPumpStation waterPumpStation)
         {
             decimal minimalCubicMeters = 0;
-            for (int i = 0; i < waterPumpStation.waterDemand.Count(); i++)
+            for (int i = 0; i < waterPumpStation.waterDemand.Count; i++)
             {
                 minimalCubicMeters += waterPumpStation.waterDemand[i];
             }

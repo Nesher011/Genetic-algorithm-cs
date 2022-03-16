@@ -27,7 +27,7 @@ namespace genetic_algorithm
             for(int i = 0; i < tournamentSize; i++)
             {
                 Individual randomlyChosenIndividual = generation.population[random.Next(generation.population.Count())];
-                if (randomlyChosenIndividual.fitnessValue > selectedIndividual.fitnessValue)
+                if (randomlyChosenIndividual.FitnessValue > selectedIndividual.FitnessValue)
                 {
                     selectedIndividual = randomlyChosenIndividual;
                 }

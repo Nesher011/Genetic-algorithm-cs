@@ -23,7 +23,7 @@
             NumberOfPumps = numberOfGenes / 24;
             GenesList = GenerateGenes(numberOfGenes);
             WaterPumpStation waterPumpStation = new();
-            WaterLevelList= CreateWaterLevelList(waterPumpStation);
+            WaterLevelList = CreateWaterLevelList(waterPumpStation);
             CostOfSolution = CalculateCost(waterPumpStation);
         }
 
@@ -49,7 +49,7 @@
                 variationOfPumpsUsed = 0;
                 for (int j = 0; j < NumberOfPumps; j++)
                 {
-                    variationOfPumpsUsed += GenesList[i+j*24] == true ? Convert.ToInt32(Math.Pow(2, j)) : 0;
+                    variationOfPumpsUsed += GenesList[i + j * 24] == true ? Convert.ToInt32(Math.Pow(2, j)) : 0;
                 }
                 decimal actualPumpVolume = waterPumpStation.waterPumpVolume[variationOfPumpsUsed];
                 actualWaterLevel += actualPumpVolume - waterPumpStation.waterDemand[i];
@@ -79,7 +79,7 @@
             for (int i = 0; i < GenesList.Count / NumberOfPumps; i++)
             {
                 int variationOfPumpsUsed = 0;
-                for(int j = 0; j < NumberOfPumps; j++)
+                for (int j = 0; j < NumberOfPumps; j++)
                 {
                     variationOfPumpsUsed += GenesList[i + j * 24] == true ? Convert.ToInt32(Math.Pow(2, j)) : 0;
                 }

@@ -1,6 +1,6 @@
 ﻿using genetic_algorithm;
 WaterPumpStation waterPumpStation = new();
-Algorithm algorithm=new Algorithm();
+Algorithm algorithm = new Algorithm();
 
 
 //Starting variables
@@ -20,4 +20,4 @@ foreach (Individual individual in sortedPopulation)
 Console.WriteLine(algorithm.TournamentSelection(generation).FitnessValue);
 Individual selected1 = algorithm.TournamentSelection(generation);
 Individual selected2 = algorithm.TournamentSelection(generation);
-var (papa, xaxa)= algorithm.Crossover(selected1, selected2);
+var (papa, xaxa) = algorithm.Crossover(selected1, selected2);

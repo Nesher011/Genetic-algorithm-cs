@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace genetic_algorithm
+﻿namespace genetic_algorithm
 {
     internal class Algorithm
     {
         public Algorithm()
         {
-            random= new Random();
+            random = new Random();
             tournamentSize = 3;
             rateOfCrossover = 0.9;
             rateOfMutation = 1 / 96;
@@ -24,7 +18,7 @@ namespace genetic_algorithm
         {
             /* TO DO: create a better function to get 3 random individuals that cannot be the same*/
             Individual selectedIndividual = generation.population[random.Next(generation.population.Count())];
-            for(int i = 0; i < tournamentSize; i++)
+            for (int i = 0; i < tournamentSize; i++)
             {
                 Individual randomlyChosenIndividual = generation.population[random.Next(generation.population.Count())];
                 if (randomlyChosenIndividual.FitnessValue > selectedIndividual.FitnessValue)
@@ -46,16 +40,16 @@ namespace genetic_algorithm
             return listOfParents;
         }
 
-        public (Individual,Individual) Crossover(Individual parentOne, Individual parentTwo)
+        public (Individual, Individual) Crossover(Individual parentOne, Individual parentTwo)
         {
             Individual childOne = parentOne;
             Individual childTwo = parentTwo;
-            for(int i = 0; i < parentOne.GenesList.Count();i++)
+            for (int i = 0; i < parentOne.GenesList.Count(); i++)
             {
 
-                
+
             }
-            return (childOne,childTwo);
+            return (childOne, childTwo);
         }
 
     }

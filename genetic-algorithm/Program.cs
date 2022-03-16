@@ -14,7 +14,7 @@ Generation generation = new Generation(numberOfIndividuals);
 List<Individual> sortedPopulation = generation.population.OrderBy(x => x.FitnessValue).ToList();
 foreach (Individual individual in sortedPopulation)
 {
-    //Console.WriteLine(individual.fitnessValue);
+    Console.WriteLine(individual.FitnessValue);
 }
 
 Console.WriteLine(algorithm.TournamentSelection(generation).FitnessValue);

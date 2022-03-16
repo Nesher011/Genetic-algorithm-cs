@@ -50,10 +50,10 @@ namespace genetic_algorithm
         {
             Individual childOne = parentOne;
             Individual childTwo = parentTwo;
-            for(int i = 0; i < parentOne.pumpSchedule.Count;i++)
+            for(int i = 0; i < parentOne.GenesList.Count();i++)
             {
 
-                Console.WriteLine(i);
+                
             }
             return (childOne,childTwo);
         }

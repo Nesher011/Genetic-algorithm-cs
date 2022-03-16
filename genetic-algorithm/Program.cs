@@ -1,7 +1,7 @@
 ﻿using genetic_algorithm;
 
 Random random = new Random();
-Water_Pump_Station waterPumpStation = new Water_Pump_Station();
+WaterPumpStation waterPumpStation = new WaterPumpStation();
 Algorithm algorithm=new Algorithm();
 
 

@@ -1,139 +1,103 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace genetic_algorithm
+﻿namespace genetic_algorithm
 {
     internal class Individual
     {
-        private Random random { get; set; }
-        public List<bool> genesList { get; set; }
-        private int numberOfGenes { get; set; }
-        private int numberOfPumps { get; }
-        private List<decimal> waterLevelList { get; }
-        public List<List<bool>> pumpSchedule { get; }
-        private decimal costOfSolution { get; set; }
-        public decimal fitnessValue { get; set; }
-        private decimal actualWaterLevel { get; set; }
-        private decimal lostWater { get; set; }
-
-        private List<bool> generateGenes(int numberOfGenes)
+        public List<bool> GenesList { get; set; }
+        private int NumberOfPumps { get; set; }
+        private decimal CostOfSolution { get; set; }
+        private List<decimal> WaterLevelList { get; set; }
+        public decimal fitnessValue { get; }
+        public Individual(int numberOfGenes)
         {
-            genesList = new List<bool>();
-            for (int i = 0; i < numberOfGenes; i++)
-            {
-                genesList.Add(random.NextDouble() >= 0.5);
-            }
-            return genesList;
-        }
-        private List<List<bool>> createPumpLists()
-        {
-            List<List<bool>> listOfPumps= new List<List<bool>>();
-            for (int i = 0; i < numberOfPumps; i++)
-            {
-                List<bool> pump = new List<bool>();
-                for (int j = 0; j < numberOfGenes / numberOfPumps; j++)
-                {
-                    pump.Add(genesList[j + i * 24]);
-                }
-                listOfPumps.Add(pump);
-            }
-            return listOfPumps;
-        }
-
-        public Individual(int numOfGenes)
-        {
-            random = new Random();
-            pumpSchedule = new List<List<bool>>();
-            Water_Pump_Station waterPumpStation = new Water_Pump_Station();
-            numberOfGenes = numOfGenes;
-            numberOfPumps = 4;
-            genesList = generateGenes(numberOfGenes);
-            pumpSchedule= createPumpLists();
-            waterLevelList = new List<decimal>();
-            actualWaterLevel = waterPumpStation.initialWaterLevel;
-            lostWater = 0;
-            costOfSolution = 0;
+            NumberOfPumps = numberOfGenes / 24;//24 hours per day, so one gene for an hour
+            GenesList = GenerateGenes(numberOfGenes);
+            WaterPumpStation waterPumpStation = new WaterPumpStation();
+            WaterLevelList = CreateWaterLevelList(waterPumpStation);
+            CostOfSolution = CalculateCost(waterPumpStation);
             fitnessValue = FitnessFunction(waterPumpStation);
-        }   
+
+        }
         public Individual()
         {
-            random = new Random();
-            pumpSchedule = new List<List<bool>>();
-            Water_Pump_Station waterPumpStation = new Water_Pump_Station();
-            numberOfGenes = 96;
-            numberOfPumps = 4;
-            genesList = generateGenes(numberOfGenes);
-            pumpSchedule = createPumpLists();
-            waterLevelList = new List<decimal>();
-            actualWaterLevel = waterPumpStation.initialWaterLevel;
-            lostWater = 0;
-            costOfSolution = 0;
-            fitnessValue = FitnessFunction(waterPumpStation);
+            int numberOfGenes = 96;
+            NumberOfPumps = numberOfGenes / 24;
+            GenesList = GenerateGenes(numberOfGenes);
+            WaterPumpStation waterPumpStation = new WaterPumpStation();
+            WaterLevelList= CreateWaterLevelList(waterPumpStation);
+            CostOfSolution = CalculateCost(waterPumpStation);
         }
-        
-        public List<decimal> createWaterLevelList(Water_Pump_Station waterPumpStation)
+
+        private List<bool> GenerateGenes(int numberOfGenes)
         {
-            int variationOfPumpsUsed=0;
-            lostWater = 0;
-            for (int i = 0; i < pumpSchedule.Count(); i++)
+            Random random = new Random();
+            GenesList = new List<bool>();
+            for (int i = 0; i < numberOfGenes; i++)
             {
-                for(int j=0;j < pumpSchedule[0].Count(); j++)
+                GenesList.Add(random.NextDouble() >= 0.5);
+            }
+            return GenesList;
+        }
+
+        private List<decimal> CreateWaterLevelList(WaterPumpStation waterPumpStation)
+        {
+            WaterLevelList = new List<decimal>();
+            decimal actualWaterLevel = waterPumpStation.initialWaterLevel;
+            int variationOfPumpsUsed;
+            waterPumpStation.lostWater = 0;
+            for (int i = 0; i < GenesList.Count() / NumberOfPumps; i++)
+            {
+                variationOfPumpsUsed = 0;
+                for (int j = 0; j < NumberOfPumps; j++)
                 {
-                    variationOfPumpsUsed += pumpSchedule[i][j] == true ? Convert.ToInt32(Math.Pow(2, i)) : 0;
+                    variationOfPumpsUsed += GenesList[i+j*24] == true ? Convert.ToInt32(Math.Pow(2, j)) : 0;
                 }
                 decimal actualPumpVolume = waterPumpStation.waterPumpVolume[variationOfPumpsUsed];
-                Console.WriteLine(variationOfPumpsUsed);
-                actualWaterLevel = actualWaterLevel + actualPumpVolume - waterPumpStation.waterDemand[i];
-                waterLevelList.Add(actualWaterLevel);
+                actualWaterLevel += actualPumpVolume - waterPumpStation.waterDemand[i];
+                WaterLevelList.Add(actualWaterLevel);
                 if (actualWaterLevel > 800)
                 {
-                    lostWater += actualWaterLevel - 800;
-                    actualWaterLevel = 800;
+                    waterPumpStation.lostWater += actualWaterLevel - 800;
+                    actualWaterLevel = waterPumpStation.maxWaterLevel;
                 }
                 else if (actualWaterLevel < 0)
                 {
-                    lostWater -= actualWaterLevel;
-                    actualWaterLevel = 0;
+                    waterPumpStation.lostWater -= actualWaterLevel;
+                    actualWaterLevel = waterPumpStation.minWaterLevel;
                 }
             }
-            if (waterLevelList.Last() < waterPumpStation.initialWaterLevel)
+            if (WaterLevelList.Last() < waterPumpStation.initialWaterLevel)
             {
-                lostWater += waterPumpStation.initialWaterLevel - waterLevelList[-1];
+                waterPumpStation.lostWater += waterPumpStation.initialWaterLevel - WaterLevelList.Last();
             }
-            return waterLevelList;
+            return WaterLevelList;
         }
 
-        public decimal CalculateCost(Water_Pump_Station waterPumpStation)
+        public decimal CalculateCost(WaterPumpStation waterPumpStation)
         {
-            List<decimal> pumpElectricityList = new List<decimal>();
             decimal totalCost = 0;
-             for (int i = 0; i < pumpSchedule.Count(); i++)
+            //***TO DO*** create a function that takes care of the pump electricity/pump volume List creation
+            for (int i = 0; i < GenesList.Count() / NumberOfPumps; i++)
             {
                 int variationOfPumpsUsed = 0;
-                for (int j = 0; j < pumpSchedule[i].Count(); j++)
+                for(int j = 0; j < NumberOfPumps; j++)
                 {
-                    variationOfPumpsUsed += pumpSchedule[i][j] == true ? Convert.ToInt32(Math.Pow(2, i)) : 0;//TO DO 
+                    variationOfPumpsUsed += GenesList[i + j * 24] == true ? Convert.ToInt32(Math.Pow(2, j)) : 0;
                 }
-                pumpElectricityList.Add(waterPumpStation.waterPumpElectricity[variationOfPumpsUsed]);
-                totalCost += pumpElectricityList[i] * (i < 7 || i  >= 20 ? waterPumpStation.energyPriceNight : waterPumpStation.energyPriceDay);
+                totalCost += waterPumpStation.waterPumpElectricity[variationOfPumpsUsed] * (i < 7 || i >= 20 ? waterPumpStation.energyPriceNight : waterPumpStation.energyPriceDay);
             }
-            totalCost += lostWater * waterPumpStation.costOfLostWater;            
+            totalCost += waterPumpStation.lostWater * waterPumpStation.costOfLostWater;
             return totalCost;
         }
 
-        public decimal FitnessFunction(Water_Pump_Station waterPumpStation)
+        public decimal FitnessFunction(WaterPumpStation waterPumpStation)
         {
-            costOfSolution = CalculateCost(waterPumpStation);
             decimal minimalCubicMeters = 0;
             for (int i = 0; i < waterPumpStation.waterDemand.Count(); i++)
             {
-                minimalCubicMeters+=waterPumpStation.waterDemand[i];
+                minimalCubicMeters += waterPumpStation.waterDemand[i];
             }
             decimal minimalCost = minimalCubicMeters * waterPumpStation.energyPriceNight;
-            return costOfSolution/minimalCost;
+            return CostOfSolution / minimalCost;
         }
     }
 }

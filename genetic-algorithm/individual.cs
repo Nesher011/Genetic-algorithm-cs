@@ -64,7 +64,7 @@
                 waterPumpStation.LostWater += waterPumpStation.InitialWaterLevel - WaterLevelList.Last();
             }
             Console.WriteLine(waterPumpStation.LostWater);
-            foreach(decimal waterLevel in WaterLevelList)
+            foreach (decimal waterLevel in WaterLevelList)
             {
                 Console.WriteLine(waterLevel);
             }
@@ -74,7 +74,7 @@
         private decimal CalculateCost(WaterPumpStation waterPumpStation)
         {
             decimal totalCost = 0;
-            List<decimal> electricityList=CreateList(waterPumpStation.WaterPumpElectricity);
+            List<decimal> electricityList = CreateList(waterPumpStation.WaterPumpElectricity);
             for (int i = 0; i < GenesList.Count / NumberOfPumps; i++)
             {
                 totalCost = electricityList[i] * (i < 7 || i > 20 ? waterPumpStation.EnergyPriceNight : waterPumpStation.EnergyPriceDay);

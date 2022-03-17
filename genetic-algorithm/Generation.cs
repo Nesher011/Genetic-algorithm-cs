@@ -2,15 +2,15 @@
 {
     internal class Generation
     {
-        public List<Individual> population { get; }
+        public List<Individual> Population { get; }
 
         public Generation(int numberOfIndividuals)
         {
-            population = new List<Individual>();
+            Population = new List<Individual>();
             for (int i = 0; i < numberOfIndividuals; i++)
             {
                 Individual individual = new Individual(96);
-                population.Add(individual);
+                Population.Add(individual);
             }
         }
     }

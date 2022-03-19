@@ -2,16 +2,23 @@
 {
     internal class Algorithm
     {
+        private double RateOfCrossover { get; set; }
+        private double RateOfMutation { get; set; }
+        private int TournamentSize { get; }
         public Algorithm()
         {
-            TournamentSize = 3;
-            RateOfCrossover = 0.9;
-            RateOfMutation = 1 / 96;
+
         }
-        public double RateOfCrossover { get; set; }
-        public double RateOfMutation { get; set; }
+        public (Individual,Individual) Crossover(Individual parentOne, Individual parentTwo, Crossover typeOfCrossover)
+        {
+            Individual childOne = new();
+            Individual childTwo = new();
+            childOne.GenesList = parentOne.GenesList;
+            childTwo.GenesList = parentTwo.GenesList;
+            typeOfCrossover.SinglePoint(childOne, childTwo, RateOfCrossover);
+            return (childOne,childTwo);
+        }
         public Generation Generation { get; set; }
-        private int TournamentSize { get; set; }
         public Individual TournamentSelection(Generation generation)
         {
             Random random = new();
@@ -38,18 +45,5 @@
             }
             return listOfParents;
         }
-
-        public (Individual, Individual) Crossover(Individual parentOne, Individual parentTwo)
-        {
-            Individual childOne = parentOne;
-            Individual childTwo = parentTwo;
-            for (int i = 0; i < parentOne.GenesList.Count(); i++)
-            {
-
-
-            }
-            return (childOne, childTwo);
-        }
-
     }
 }

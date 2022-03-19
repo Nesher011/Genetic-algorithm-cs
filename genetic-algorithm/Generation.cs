@@ -6,12 +6,23 @@
 
         public Generation(int numberOfIndividuals)
         {
-            Population = new List<Individual>();
+            Population = GenerateFirstPopulation(numberOfIndividuals);
+        }
+
+        private List<Individual> GenerateFirstPopulation(int numberOfIndividuals)
+        {
+            List<Individual> population = new();
             for (int i = 0; i < numberOfIndividuals; i++)
             {
-                Individual individual = new Individual(96);
-                Population.Add(individual);
+                Individual individual = new(96);
+                population.Add(individual);
             }
+            return population;
+        }
+        private List<Individual> GenerateNextPopulation()
+        {
+            List<Individual> population = new();
+            return population;
         }
     }
 }

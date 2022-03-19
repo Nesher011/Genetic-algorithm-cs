@@ -13,18 +13,16 @@
             MinWaterLevel = 0;
             CostOfLostWater = 1000;
             InitialWaterLevel = 200;
-            CostOfLostWater = 0;
         }
         public List<decimal> WaterDemand { get; }
         public List<decimal> WaterPumpVolume { get; }
         public List<decimal> WaterPumpElectricity { get; }
         public decimal InitialWaterLevel { get; }
-        public decimal ActualWaterLevel { get; set; }
-        public decimal MaxWaterLevel { get; }
-        public decimal MinWaterLevel { get; }
+        public decimal MaxWaterLevel { get; private set; }
+        public decimal MinWaterLevel { get; private set; }
         public decimal LostWater { get; set; }
-        public decimal EnergyPriceDay { get; set; }
-        public decimal EnergyPriceNight { get; set; }
+        public decimal EnergyPriceDay { get; }
+        public decimal EnergyPriceNight { get; private set; }
         public decimal CostOfLostWater { get; }
     }
 }

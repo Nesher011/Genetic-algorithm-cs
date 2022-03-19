@@ -16,6 +16,7 @@
             CostOfSolution = CalculateCost(waterPumpStation);
             FitnessValue = FitnessFunction(waterPumpStation);
         }
+
         public Individual()
         {
             int numberOfGenes = 96;
@@ -63,11 +64,6 @@
             {
                 waterPumpStation.LostWater += waterPumpStation.InitialWaterLevel - WaterLevelList.Last();
             }
-            Console.WriteLine(waterPumpStation.LostWater);
-            foreach (decimal waterLevel in WaterLevelList)
-            {
-                Console.WriteLine(waterLevel);
-            }
             return WaterLevelList;
         }
 
@@ -77,9 +73,10 @@
             List<decimal> electricityList = CreateList(waterPumpStation.WaterPumpElectricity);
             for (int i = 0; i < GenesList.Count / NumberOfPumps; i++)
             {
-                totalCost = electricityList[i] * (i < 7 || i > 20 ? waterPumpStation.EnergyPriceNight : waterPumpStation.EnergyPriceDay);
+                totalCost += electricityList[i] * (i < 7 || i > 20 ? waterPumpStation.EnergyPriceNight : waterPumpStation.EnergyPriceDay);
             }
             totalCost += waterPumpStation.LostWater * waterPumpStation.CostOfLostWater;
+            Console.WriteLine($"total cost:\t{totalCost},\tlostwater:\t{waterPumpStation.LostWater}");
             return totalCost;
         }
         private List<decimal> CreateList(List<decimal> inputList)
@@ -104,8 +101,8 @@
             {
                 minimalCubicMeters += waterPumpStation.WaterDemand[i];
             }
-            decimal minimalCost = minimalCubicMeters * waterPumpStation.EnergyPriceNight;
-            return CostOfSolution / minimalCost;
+            decimal minimalCost = minimalCubicMeters * waterPumpStation.EnergyPriceNight*0.8M;
+            return minimalCost/CostOfSolution;
         }
     }
 }

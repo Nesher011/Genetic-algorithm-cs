@@ -2,11 +2,19 @@
 {
     internal class Generation
     {
-        public List<Individual> Population { get; }
+        public List<Individual> Population { get; set; }
 
-        public Generation(int numberOfIndividuals)
+        public Generation(int numberOfIndividuals, int generationNumber)
         {
-            Population = GenerateFirstPopulation(numberOfIndividuals);
+            if (generationNumber == 1)
+            {
+                Population = GenerateFirstPopulation(numberOfIndividuals);
+            }
+            else
+            {
+                Population = GenerateNextPopulation();
+            }
+
         }
 
         private List<Individual> GenerateFirstPopulation(int numberOfIndividuals)

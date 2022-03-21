@@ -7,7 +7,9 @@
         private int TournamentSize { get; }
         public Algorithm()
         {
-
+            TournamentSize = 3;
+            RateOfCrossover = 0.9;
+            RateOfMutation = 1 / 96;
         }
         public (Individual,Individual) Crossover(Individual parentOne, Individual parentTwo, Crossover typeOfCrossover)
         {
@@ -19,31 +21,35 @@
             return (childOne,childTwo);
         }
         public Generation Generation { get; set; }
-        public Individual TournamentSelection(Generation generation)
+        public void TournamentSelection(Generation generation)
         {
             Random random = new();
-            /* TO DO: create a better function to get 3 random individuals that cannot be the same*/
-            Individual selectedIndividual = generation.Population[random.Next(generation.Population.Count())];
-            for (int i = 0; i < TournamentSize; i++)
+            List<Individual> selectedPopulation = new();
+            for(int i = 0; i < generation.Population.Count; i++)
             {
-                Individual randomlyChosenIndividual = generation.Population[random.Next(generation.Population.Count())];
-                if (randomlyChosenIndividual.FitnessValue > selectedIndividual.FitnessValue)
+                Individual selectedIndividual=generation.Population[random.Next(generation.Population.Count())];
+                for(int j=0; i < TournamentSize; i++)
                 {
-                    selectedIndividual = randomlyChosenIndividual;
+                    Individual randomIndividual=generation.Population[random.Next(generation.Population.Count())];
+                    if (randomIndividual.FitnessValue > selectedIndividual.FitnessValue)
+                    {
+                        selectedIndividual=randomIndividual;
+                    }
                 }
+                selectedPopulation.Add(selectedIndividual);
             }
-            return selectedIndividual;
+            generation.Population = selectedPopulation;
         }
 
-        public List<Individual> ListOfParents(Generation generation)
-        {
-            List<Individual> listOfParents = new List<Individual>();
-            for (int i = 0; i < generation.Population.Count(); i++)
-            {
-                Individual selectedIndividual = TournamentSelection(generation);
-                listOfParents.Add(selectedIndividual);
-            }
-            return listOfParents;
-        }
+        //public List<Individual> ListOfParents(Generation generation)
+        //{
+        //    List<Individual> listOfParents = new List<Individual>();
+        //    for (int i = 0; i < generation.Population.Count(); i++)
+        //    {
+        //        Individual selectedIndividual = TournamentSelection(generation);
+        //        listOfParents.Add(selectedIndividual);
+        //    }
+        //    return listOfParents;
+        //}
     }
 }

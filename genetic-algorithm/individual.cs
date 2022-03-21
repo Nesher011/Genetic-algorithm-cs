@@ -76,7 +76,7 @@
                 totalCost += electricityList[i] * (i < 7 || i > 20 ? waterPumpStation.EnergyPriceNight : waterPumpStation.EnergyPriceDay);
             }
             totalCost += waterPumpStation.LostWater * waterPumpStation.CostOfLostWater;
-            Console.WriteLine($"total cost:\t{totalCost},\tlostwater:\t{waterPumpStation.LostWater}");
+            //Console.WriteLine($"total cost:\t{totalCost},\tlostwater:\t{waterPumpStation.LostWater}");
             return totalCost;
         }
         private List<decimal> CreateList(List<decimal> inputList)

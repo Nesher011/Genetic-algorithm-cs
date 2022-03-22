@@ -41,6 +41,11 @@
             generation.Population = selectedPopulation;
         }
 
+        public void Mutate()
+        {
+
+        }
+
         //public List<Individual> ListOfParents(Generation generation)
         //{
         //    List<Individual> listOfParents = new List<Individual>();

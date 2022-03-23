@@ -5,18 +5,19 @@ Algorithm algorithm = new();
 //Starting variables
 int numberOfIndividuals = 40;
 int generationNumber = 1;
+int numberOfGenerations = 100;
 
 Generation generation = new(numberOfIndividuals, generationNumber);
+algorithm.Crossover(generation);
 
-foreach(Individual individual in generation.Population)
+/*for (int i = 1; i <= numberOfGenerations; i++)
 {
-    Console.WriteLine(individual.FitnessValue);
-}
-Console.WriteLine("przerwaprzerwaprzerwa");
-algorithm.TournamentSelection(generation);
-
-foreach (Individual individual in generation.Population)
-{
-    Console.WriteLine(individual.FitnessValue);
-}
-
+    foreach(Individual individual in generation.Population)
+    {
+        individual.calculateIndividual();
+    }
+    Console.WriteLine($"Best Individual in generation {i}: {generation.GetBestIndividual().FitnessValue}");
+    algorithm.TournamentSelection(generation);
+    algorithm.Crossover(generation);
+    algorithm.Mutation(generation);
+}*/

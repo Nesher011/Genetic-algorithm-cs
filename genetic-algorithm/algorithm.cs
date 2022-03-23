@@ -11,16 +11,16 @@
             RateOfCrossover = 0.9;
             RateOfMutation = 1 / 96;
         }
-        public (Individual,Individual) Crossover(Individual parentOne, Individual parentTwo, Crossover typeOfCrossover)
+        public void Crossover(Generation generation)
         {
-            Individual childOne = new();
-            Individual childTwo = new();
-            childOne.GenesList = parentOne.GenesList;
-            childTwo.GenesList = parentTwo.GenesList;
-            typeOfCrossover.SinglePoint(childOne, childTwo, RateOfCrossover);
-            return (childOne,childTwo);
+            Crossover typeOfCrossover = new();
+            for (int i = 0; i < Convert.ToInt32(generation.Population.Count / 2); i++)
+            {
+                Individual childOne = generation.Population[i];
+                Individual childTwo = generation.Population[2 * i];
+                typeOfCrossover.SinglePoint(childOne, childTwo, RateOfCrossover);
+            }
         }
-        public Generation Generation { get; set; }
         public void TournamentSelection(Generation generation)
         {
             Random random = new();
@@ -28,7 +28,7 @@
             for(int i = 0; i < generation.Population.Count; i++)
             {
                 Individual selectedIndividual=generation.Population[random.Next(generation.Population.Count())];
-                for(int j=0; i < TournamentSize; i++)
+                for(int j=0; j < TournamentSize; j++)
                 {
                     Individual randomIndividual=generation.Population[random.Next(generation.Population.Count())];
                     if (randomIndividual.FitnessValue > selectedIndividual.FitnessValue)
@@ -41,8 +41,21 @@
             generation.Population = selectedPopulation;
         }
 
-        public void Mutate()
+        public void Mutation(Generation generation)
         {
+
+            
+            Random random = new();
+            foreach(Individual individual in generation.Population)
+            {
+                for (int i = 0; i < individual.GenesList.Count; i++)
+                {
+                    if (random.NextDouble() <= RateOfMutation)
+                    {
+                        individual.GenesList[i] = !individual.GenesList[i];
+                    }
+                }
+            }
 
         }
 

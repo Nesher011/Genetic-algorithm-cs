@@ -14,7 +14,6 @@
             {
                 Population = GenerateNextPopulation();
             }
-
         }
 
         private List<Individual> GenerateFirstPopulation(int numberOfIndividuals)
@@ -31,6 +30,14 @@
         {
             List<Individual> population = new();
             return population;
+        }
+
+        public Individual GetBestIndividual()
+        {
+            List < Individual > sortedList= Population.OrderBy(individual=>individual.FitnessValue).ToList();
+            
+
+            return sortedList[0];
         }
     }
 }

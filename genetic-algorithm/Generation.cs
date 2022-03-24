@@ -35,8 +35,6 @@
         public Individual GetBestIndividual()
         {
             List < Individual > sortedList= Population.OrderBy(individual=>individual.FitnessValue).ToList();
-            
-
             return sortedList[0];
         }
     }

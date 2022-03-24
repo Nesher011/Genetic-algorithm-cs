@@ -17,8 +17,9 @@
             for (int i = 0; i < Convert.ToInt32(generation.Population.Count / 2); i++)
             {
                 Individual childOne = generation.Population[i];
-                Individual childTwo = generation.Population[2 * i];
+                Individual childTwo = generation.Population[i+generation.Population.Count/2];
                 typeOfCrossover.SinglePoint(childOne, childTwo, RateOfCrossover);
+                break;
             }
         }
         public void TournamentSelection(Generation generation)
@@ -55,6 +56,7 @@
                         individual.GenesList[i] = !individual.GenesList[i];
                     }
                 }
+
             }
 
         }

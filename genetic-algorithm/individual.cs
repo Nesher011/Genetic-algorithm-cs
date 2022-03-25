@@ -7,6 +7,12 @@
         private decimal CostOfSolution { get; set; }
         private List<decimal>? WaterLevelList { get; set; }
         public decimal FitnessValue { get; set; }
+        public Individual(Individual previousInd)
+        {
+            NumberOfPumps=previousInd.NumberOfPumps;
+            GenesList= previousInd.GenesList;
+            CalculateIndividual();
+        }
         public Individual(int numberOfGenes)
         {
             NumberOfPumps = numberOfGenes / 24;//24 hours per day, so one gene for an hour
@@ -100,7 +106,7 @@
             {
                 minimalCubicMeters += waterPumpStation.WaterDemand[i];
             }
-            decimal minimalCost = minimalCubicMeters * waterPumpStation.EnergyPriceNight * 0.8M;
+            decimal minimalCost = minimalCubicMeters * waterPumpStation.EnergyPriceNight;// * 0.8M;
             return minimalCost / CostOfSolution;
         }
     }

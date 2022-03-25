@@ -2,7 +2,7 @@
 {
     internal class Algorithm
     {
-        private double RateOfMutation { get; set; }
+        public double RateOfMutation { get; set; }
         private int TournamentSize { get; }
         public Algorithm()
         {
@@ -31,9 +31,7 @@
                     Individual randomIndividual = population[random.Next(population.Count())];
                     if (randomIndividual.FitnessValue > selectedIndividual.FitnessValue)
                     {
-                        Console.WriteLine($"{randomIndividual.FitnessValue} better than {selectedIndividual.FitnessValue}");
                         selectedIndividual = randomIndividual;
-
                     }
                 }
                 selectedPopulation.Add(selectedIndividual);

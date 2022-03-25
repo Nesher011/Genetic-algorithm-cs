@@ -8,15 +8,19 @@
         {
 
             Algorithm algorithm = new();
-            Population = previousGeneration.Population;
+            this.Population = previousGeneration.Population;
+
+
+            Population=algorithm.TournamentSelection(Population);
+
+            algorithm.Crossover(Population);
+            List<bool> test1 = new(Population[0].GenesList);
+            algorithm.Mutation(Population);
+            List<bool> test2 = new(Population[0].GenesList);
             foreach (Individual ind in Population)
             {
                 ind.CalculateIndividual();
             }
-            Population=algorithm.TournamentSelection(Population);
-            algorithm.Crossover(Population);
-            algorithm.Mutation(Population);
-
         }
 
         public Generation(int numberOfIndividuals, int generationNumber)

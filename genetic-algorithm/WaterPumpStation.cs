@@ -12,7 +12,7 @@
             MaxWaterLevel = 800;
             MinWaterLevel = 0;
             CostOfLostWater = 1000;
-            InitialWaterLevel = 200;
+            InitialWaterLevel = 300;
         }
         public List<decimal> WaterDemand { get; }
         public List<decimal> WaterPumpVolume { get; }

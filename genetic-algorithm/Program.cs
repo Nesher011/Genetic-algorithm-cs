@@ -5,7 +5,7 @@ Algorithm algorithm = new();
 //Starting variables
 int numberOfIndividuals = 50;
 int generationNumber = 1;
-int numberOfGenerations = 999999;
+int numberOfGenerations = 10000;
 
 Generation firstGeneration = new(numberOfIndividuals, generationNumber);
 Generation actualGeneration = firstGeneration;

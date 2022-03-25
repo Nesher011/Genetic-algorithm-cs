@@ -14,9 +14,7 @@
             Population=algorithm.TournamentSelection(Population);
 
             algorithm.Crossover(Population);
-            List<bool> test1 = new(Population[0].GenesList);
             algorithm.Mutation(Population);
-            List<bool> test2 = new(Population[0].GenesList);
             foreach (Individual ind in Population)
             {
                 ind.CalculateIndividual();

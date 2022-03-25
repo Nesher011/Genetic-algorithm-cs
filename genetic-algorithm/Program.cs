@@ -3,22 +3,15 @@ WaterPumpStation waterPumpStation = new();
 Algorithm algorithm = new();
 
 //Starting variables
-int numberOfIndividuals = 160;
+int numberOfIndividuals = 50;
 int generationNumber = 1;
-int numberOfGenerations = 100000;
+int numberOfGenerations = 100;
 
-Generation generation = new(numberOfIndividuals, generationNumber);
-
-
-
-for (int i = 1; i <= numberOfGenerations; i++)
+Generation firstGeneration = new(numberOfIndividuals, generationNumber);
+Generation actualGeneration = firstGeneration;
+for(int i = 0; i < numberOfGenerations; i++)
 {
-    foreach(Individual individual in generation.Population)
-    {
-        individual.calculateIndividual();
-    }
-    Console.WriteLine($"Best Individual in generation {i}: {generation.GetBestIndividual().FitnessValue}");
-    algorithm.TournamentSelection(generation);
-    algorithm.Crossover(generation);
-    algorithm.Mutation(generation);
+    Console.WriteLine(actualGeneration.GetBestIndividual().FitnessValue);
+    Generation nextGeneration = new(actualGeneration);
+    actualGeneration = nextGeneration;
 }

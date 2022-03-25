@@ -2,57 +2,55 @@
 {
     internal class Algorithm
     {
-        private double RateOfCrossover { get; set; }
         private double RateOfMutation { get; set; }
         private int TournamentSize { get; }
         public Algorithm()
         {
             TournamentSize = 3;
-            RateOfCrossover = 0.9;
-            RateOfMutation = 1 / 96;
+            RateOfMutation = 1 / 96F;
         }
-        public void Crossover(Generation generation)
+        public void Crossover(List<Individual> population)
         {
             Crossover typeOfCrossover = new();
-            for (int i = 0; i < Convert.ToInt32(generation.Population.Count / 2); i++)
+            for (int i = 0; i < Convert.ToInt32(population.Count / 2); i++)
             {
-                Individual childOne = generation.Population[i];
-                Individual childTwo = generation.Population[i+generation.Population.Count/2];
-                typeOfCrossover.SinglePoint(childOne, childTwo, RateOfCrossover);
-                break;
+                Individual childOne = population[i];
+                Individual childTwo = population[i + population.Count / 2];
+                typeOfCrossover.SinglePoint(childOne, childTwo);
             }
         }
-        public void TournamentSelection(Generation generation)
+        public List<Individual> TournamentSelection(List<Individual> population)
         {
             Random random = new();
             List<Individual> selectedPopulation = new();
-            for(int i = 0; i < generation.Population.Count; i++)
+            for (int i = 0; i < population.Count; i++)
             {
-                Individual selectedIndividual=generation.Population[random.Next(generation.Population.Count())];
-                for(int j=0; j < TournamentSize; j++)
+                Individual selectedIndividual = population[random.Next(population.Count())];
+                for (int j = 0; j < TournamentSize; j++)
                 {
-                    Individual randomIndividual=generation.Population[random.Next(generation.Population.Count())];
+                    Individual randomIndividual = population[random.Next(population.Count())];
                     if (randomIndividual.FitnessValue > selectedIndividual.FitnessValue)
                     {
-                        selectedIndividual=randomIndividual;
+                        Console.WriteLine($"{randomIndividual.FitnessValue} better than {selectedIndividual.FitnessValue}");
+                        selectedIndividual = randomIndividual;
+
                     }
                 }
                 selectedPopulation.Add(selectedIndividual);
             }
-            generation.Population = selectedPopulation;
+            population = selectedPopulation;
+            return population;
         }
 
-        public void Mutation(Generation generation)
+        public void Mutation(List<Individual> population)
         {
-
-            
             Random random = new();
-            foreach(Individual individual in generation.Population)
+            foreach (Individual individual in population)
             {
                 for (int i = 0; i < individual.GenesList.Count; i++)
                 {
                     if (random.NextDouble() <= RateOfMutation)
-                    {
+                    {                       
                         individual.GenesList[i] = !individual.GenesList[i];
                     }
                 }
@@ -60,16 +58,5 @@
             }
 
         }
-
-        //public List<Individual> ListOfParents(Generation generation)
-        //{
-        //    List<Individual> listOfParents = new List<Individual>();
-        //    for (int i = 0; i < generation.Population.Count(); i++)
-        //    {
-        //        Individual selectedIndividual = TournamentSelection(generation);
-        //        listOfParents.Add(selectedIndividual);
-        //    }
-        //    return listOfParents;
-        //}
     }
 }

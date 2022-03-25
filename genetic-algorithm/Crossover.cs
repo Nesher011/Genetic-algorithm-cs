@@ -2,12 +2,13 @@
 {
     internal class Crossover
     {
+        double RateOfCrossover { get; set; }
         public Crossover()
         {
-
+            RateOfCrossover = 0.9;
         }
 
-        public void SinglePoint(Individual childOne, Individual childTwo, double RateOfCrossover)
+        public void SinglePoint(Individual childOne, Individual childTwo)
         {
             Random random = new();
             int pointOfCrossover = random.Next(childOne.GenesList.Count);

@@ -5,23 +5,22 @@
         public List<bool> GenesList { get; set; }
         private int NumberOfPumps { get; set; }
         private decimal CostOfSolution { get; set; }
-        private List<decimal> WaterLevelList { get; set; }
+        private List<decimal>? WaterLevelList { get; set; }
         public decimal FitnessValue { get; set; }
         public Individual(int numberOfGenes)
         {
             NumberOfPumps = numberOfGenes / 24;//24 hours per day, so one gene for an hour
             GenesList = GenerateGenes(numberOfGenes);
-            calculateIndividual();
+            CalculateIndividual();
         }
-
         public Individual()
         {
             int numberOfGenes = 96;
             NumberOfPumps = numberOfGenes / 24;
             GenesList = GenerateGenes(numberOfGenes);
-            calculateIndividual();
+            CalculateIndividual();
         }
-        public void calculateIndividual()
+        public void CalculateIndividual()
         {
             WaterPumpStation waterPumpStation = new();
             WaterLevelList = CreateWaterLevelList(waterPumpStation);
@@ -76,9 +75,7 @@
             {
                 totalCost += electricityList[i] * (i < 7 || i > 20 ? waterPumpStation.EnergyPriceNight : waterPumpStation.EnergyPriceDay);
             }
-            //Console.WriteLine($"total cost before lost water: {totalCost}");
             totalCost += waterPumpStation.LostWater * waterPumpStation.CostOfLostWater;
-            //Console.WriteLine($"total cost:\t{totalCost},\tlostwater:\t{waterPumpStation.LostWater}");
             return totalCost;
         }
         private List<decimal> CreateList(List<decimal> inputList)
@@ -103,8 +100,8 @@
             {
                 minimalCubicMeters += waterPumpStation.WaterDemand[i];
             }
-            decimal minimalCost = minimalCubicMeters * waterPumpStation.EnergyPriceNight*0.8M;
-            return minimalCost/CostOfSolution;
+            decimal minimalCost = minimalCubicMeters * waterPumpStation.EnergyPriceNight * 0.8M;
+            return minimalCost / CostOfSolution;
         }
     }
 }

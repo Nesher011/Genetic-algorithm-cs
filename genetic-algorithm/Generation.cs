@@ -1,8 +1,23 @@
 ﻿namespace genetic_algorithm
 {
-    internal class Generation
+    class Generation
     {
         public List<Individual> Population { get; set; }
+
+        public Generation(Generation previousGeneration)
+        {
+
+            Algorithm algorithm = new();
+            Population = previousGeneration.Population;
+            foreach (Individual ind in Population)
+            {
+                ind.CalculateIndividual();
+            }
+            Population=algorithm.TournamentSelection(Population);
+            algorithm.Crossover(Population);
+            algorithm.Mutation(Population);
+
+        }
 
         public Generation(int numberOfIndividuals, int generationNumber)
         {
@@ -34,7 +49,7 @@
 
         public Individual GetBestIndividual()
         {
-            List < Individual > sortedList= Population.OrderBy(individual=>individual.FitnessValue).ToList();
+            List < Individual > sortedList= Population.OrderByDescending(ind=>ind.FitnessValue).ToList();
             return sortedList[0];
         }
     }

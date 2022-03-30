@@ -6,15 +6,11 @@
 
         public Generation(Generation previousGeneration)
         {
-
             Algorithm algorithm = new();
             this.Population = previousGeneration.Population;
-
-
             Population=algorithm.TournamentSelection(Population);
-
-            algorithm.Crossover(Population);
-            algorithm.Mutation(Population);
+            Algorithm.Crossover(Population);
+            Algorithm.Mutation(Population);
             foreach (Individual ind in Population)
             {
                 ind.CalculateIndividual();
@@ -33,7 +29,7 @@
             }
         }
 
-        private List<Individual> GenerateFirstPopulation(int numberOfIndividuals)
+        private static List<Individual> GenerateFirstPopulation(int numberOfIndividuals)
         {
             List<Individual> population = new();
             for (int i = 0; i < numberOfIndividuals; i++)
@@ -43,7 +39,7 @@
             }
             return population;
         }
-        private List<Individual> GenerateNextPopulation()
+        private static List<Individual> GenerateNextPopulation()
         {
             List<Individual> population = new();
             return population;

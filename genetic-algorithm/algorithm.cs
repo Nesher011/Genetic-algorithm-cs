@@ -7,17 +7,12 @@
         public Algorithm()
         {
             TournamentSize = 3;
-            RateOfMutation = 1 / 96F;
         }
-        public void Crossover(List<Individual> population)
+        public static void Crossover(List<Individual> population)
         {
-            Crossover typeOfCrossover = new();
-            for (int i = 0; i < Convert.ToInt32(population.Count / 2); i++)
-            {
-                Individual childOne = population[i];
-                Individual childTwo = population[i + population.Count / 2];
-                typeOfCrossover.SinglePoint(childOne, childTwo);
-            }
+            Crossover crossover = new();
+            crossover.SinglePoint(population);
+            
         }
         public List<Individual> TournamentSelection(List<Individual> population)
         {
@@ -40,21 +35,10 @@
             return population;
         }
 
-        public void Mutation(List<Individual> population)
+        public static void Mutation(List<Individual> population)
         {
-            Random random = new();
-            foreach (Individual individual in population)
-            {
-                for (int i = 0; i < individual.GenesList.Count; i++)
-                {
-                    if (random.NextDouble() <= RateOfMutation)
-                    {                       
-                        individual.GenesList[i] = !individual.GenesList[i];
-                    }
-                }
-
-            }
-
+            Mutation mutation = new();
+            mutation.SinglePoint(population);
         }
     }
 }

@@ -6,9 +6,7 @@
 
         public Generation(Generation previousGeneration)
         {
-            Algorithm algorithm = new();
-            this.Population = previousGeneration.Population;
-            Population=algorithm.TournamentSelection(Population);
+            Population= Algorithm.Selection(previousGeneration.Population);
             Algorithm.Crossover(Population);
             Algorithm.Mutation(Population);
             foreach (Individual ind in Population)

@@ -11,7 +11,7 @@ namespace genetic_algorithm
         private double RateOfMutation { get; set; }
         public Mutation()
         {
-            RateOfMutation = 1 / 96F;
+            RateOfMutation = 1/96f;
         }
         public void SinglePoint(List<Individual> population)
         {

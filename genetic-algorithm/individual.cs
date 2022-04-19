@@ -49,11 +49,11 @@
         {
             WaterLevelList = new List<decimal>();
             decimal actualWaterLevel = waterPumpStation.InitialWaterLevel;
-            List<decimal> WaterVolumeList = CreateList(waterPumpStation.WaterPumpVolume);
+            List<decimal> waterVolumeList = CreateList(waterPumpStation.WaterPumpVolume);
             waterPumpStation.LostWater = 0;
             for (int i = 0; i < GenesList.Count / NumberOfPumps; i++)
             {
-                actualWaterLevel += WaterVolumeList[i] - waterPumpStation.WaterDemand[i];
+                actualWaterLevel += waterVolumeList[i] - waterPumpStation.WaterDemand[i];
                 WaterLevelList.Add(actualWaterLevel);
                 if (actualWaterLevel > 800)
                 {
@@ -79,7 +79,7 @@
             List<decimal> electricityList = CreateList(waterPumpStation.WaterPumpElectricity);
             for (int i = 0; i < GenesList.Count / NumberOfPumps; i++)
             {
-                totalCost += electricityList[i] * (i < 7 || i > 20 ? waterPumpStation.EnergyPriceNight : waterPumpStation.EnergyPriceDay);
+                totalCost += electricityList[i] * (i <= 7 || i >= 20 ? waterPumpStation.EnergyPriceNight : waterPumpStation.EnergyPriceDay);
             }
             totalCost += waterPumpStation.LostWater * waterPumpStation.CostOfLostWater;
             return totalCost;

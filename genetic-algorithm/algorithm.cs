@@ -2,16 +2,17 @@
 {
     internal class Algorithm
     {
+        private static readonly double _rateOfCrossover = 0.9;
+
         public Algorithm()
         {
+        }
 
-        }
-        public static void Crossover(List<Individual> population)
+        public static void PerformCrossover(List<Individual> population)
         {
-            Crossover crossover = new();
-            crossover.SinglePoint(population);
-            
+            Crossover.SinglePoint(population, _rateOfCrossover);
         }
+
         public static List<Individual> Selection(List<Individual> population)
         {
             Selection selection = new();

@@ -21,5 +21,41 @@
                 }
             }
         }
+
+        public void MultiplePoint(List<Individual> population, int crossoverPoints)
+        {
+            Random random = new();
+            for( int i = 0; i < Convert.ToInt32(population.Count / 2); i++)
+            {
+                Individual childOne = population[i];
+                Individual childTwo = population[i + population.Count / 2];
+                List<bool> parentGenesOne = childOne.GenesList;
+                List<bool> parentGenesTwo = childTwo.GenesList;
+                childOne.GenesList.Clear();
+                childTwo.GenesList.Clear();                
+                List<int> pointsOfCrossover = new();
+                for(int j=0; j < crossoverPoints; j++)
+                {
+                    pointsOfCrossover.Add(random.Next(childOne.GenesList.Count));
+                    if (random.NextDouble() <= RateOfCrossover)
+                    {
+                        List<bool> childOnePart = parentGenesOne.GetRange(0, pointsOfCrossover[j]);
+                        List<bool> childTwoPart = parentGenesTwo.GetRange(0, pointsOfCrossover[j]);
+                        if (j % 2 == 0)
+                        {
+                            childOne.GenesList = childOne.GenesList.Concat(childOnePart).ToList();
+                            childTwo.GenesList = childTwo.GenesList.Concat(childTwoPart).ToList();
+                        }
+                        else
+                        {
+                            childOne.GenesList = childOne.GenesList.Concat(childTwoPart).ToList();
+                            childTwo.GenesList = childTwo.GenesList.Concat(childOnePart).ToList();
+                        }
+                    }
+                    
+                }
+                
+            }
+        }
     }
 }
